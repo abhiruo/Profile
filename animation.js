@@ -1,26 +1,78 @@
-function createSnow() {
-    const container = document.getElementById('snow-container');
-    const snowflakes = 75;
-    const width = window.innerWidth;
+function createParticles() {
+    const container = document.getElementById('particles-container');
+    const particleCount = 60;
     
-    for(let i = 0; i < snowflakes; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
-        snowflake.innerHTML = '❄';
+    const colors = [
+        'rgba(107, 172, 204, 0.8)',
+        'rgba(255, 255, 255, 0.9)',
+        'rgba(125, 178, 122, 0.7)',
+        'rgba(213, 97, 226, 0.6)'
+    ];
+    
+    for(let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
         
-        const leftPos = (width / snowflakes) * i;
-        const duration = 5 + Math.random() * 10;
-        const size = 8 + Math.random() * 8;
-        const delay = Math.random() * 5;
-        const opacity = 0.5 + Math.random() * 0.5;
+        const size = 2 + Math.random() * 5;
+        const posX = Math.random() * 100;
+        const duration = 25 + Math.random() * 30;
+        const delay = Math.random() * 20;
+        const opacity = 0.4 + Math.random() * 0.5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
         
-        snowflake.style.left = `${leftPos}px`;
-        snowflake.style.animationDuration = `${duration}s`;
-        snowflake.style.animationDelay = `${delay}s`;
-        snowflake.style.fontSize = `${size}px`;
-        snowflake.style.opacity = opacity;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${100 + (Math.random() * 10)}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.opacity = opacity;
+        particle.style.backgroundColor = color;
+        particle.style.borderRadius = '50%';
         
-        container.appendChild(snowflake);
+        if(Math.random() > 0.8) {
+            particle.classList.add('glow');
+        }
+        
+        container.appendChild(particle);
+    }
+}
+
+
+function createLeaves() {
+    const container = document.getElementById('particles-container');
+    const leaves = 60;
+    
+    const leafTypes = ['🍃', '🍂', '🌿', '🍁'];
+    const colors = ['#7db27a', '#d561e2', '#6baccc', '#ffffff'];
+    
+    const columns = 6;
+    const rows = 7;
+    const colWidth = 100 / columns;
+    const rowHeight = 100 / rows;
+    
+    for(let i = 0; i < leaves; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+        leaf.innerHTML = leafTypes[i % leafTypes.length];
+        
+        const col = i % columns;
+        const row = Math.floor(i / columns) % rows;
+        const leftPos = (col * colWidth) + (Math.random() * colWidth * 0.8);
+        const duration = 10 + Math.random() * 15; 
+        const delay = Math.random() * 10; 
+        const size = 14 + Math.random() * 10;
+        const color = colors[i % colors.length];
+        
+        leaf.style.left = `${leftPos}%`;
+        leaf.style.top = `${-10 - (row * rowHeight)}%`;
+        leaf.style.animationDuration = `${duration}s`;
+        leaf.style.animationDelay = `${delay}s`;
+        leaf.style.fontSize = `${size}px`;
+        leaf.style.color = color;
+        leaf.style.filter = `hue-rotate(${Math.random() * 30}deg)`;
+        
+        container.appendChild(leaf);
     }
 }
 
@@ -33,20 +85,23 @@ document.getElementById('entry-page').addEventListener('click', function() {
 });
 
 document.addEventListener('mousemove', (e) => {
-    if (Math.random() > 0.7) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'cursor-snowflake';
-        snowflake.innerHTML = '❄';
-        snowflake.style.left = `${e.clientX}px`;
-        snowflake.style.top = `${e.clientY}px`;
-        snowflake.style.fontSize = `${10 + Math.random() * 10}px`;
-        document.body.appendChild(snowflake);
+    if (Math.random() > 0.95) { 
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf cursor-leaf';
+        const leafTypes = ['🍃', '🍂', '🌿', '🍁'];
+        leaf.innerHTML = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+        leaf.style.left = `${e.clientX}px`;
+        leaf.style.top = `${e.clientY}px`;
+        leaf.style.fontSize = `${8 + Math.random() * 10}px`;
+        leaf.style.animationDuration = '2s'; 
+        document.body.appendChild(leaf);
         
-        setTimeout(() => snowflake.remove(), 2000);
+        setTimeout(() => leaf.remove(), 2000); 
     }
 });
 
-createSnow();
+createParticles();
+createLeaves();
 
 const bgMusic = document.getElementById('bgMusic');
 const toggleBtn = document.getElementById('musicToggle');
