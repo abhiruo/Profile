@@ -34,6 +34,65 @@ body::before {
     background-attachment: fixed;
 }
 
+#particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    animation: float-particle linear infinite;
+    pointer-events: none;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+}
+
+.leaf {
+    position: fixed;
+    pointer-events: none;
+    animation: fall linear infinite;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
+    z-index: -1;
+}
+
+.cursor-leaf {
+    animation: cursor-fall 3s linear forwards;
+}
+
+@keyframes float-particle {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); }
+    25% { transform: translateY(-50px) translateX(20px) rotate(90deg); }
+    50% { transform: translateY(-100px) translateX(0) rotate(180deg); }
+    75% { transform: translateY(-50px) translateX(-20px) rotate(270deg); }
+    100% { transform: translateY(0) translateX(0) rotate(360deg); }
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10px) translateX(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+        transform: translateY(100vh) translateX(50px) rotate(360deg) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes cursor-fall {
+    to {
+        transform: translateY(100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 #entry-page {
     position: fixed;
     top: 0;
@@ -85,6 +144,7 @@ body::before {
         0 0 30px rgba(107, 172, 204, 0.3);
     filter: brightness(1.05);
     transition: all 0.3s ease;
+    animation: float 6s ease-in-out infinite;
 }
 
 .profile-pic:hover {
@@ -110,12 +170,6 @@ body::before {
 @keyframes shine {
     0% { background-position: 0% center; }
     100% { background-position: 200% center; }
-}
-
-@keyframes float {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-5px) rotate(2deg); }
-    100% { transform: translateY(0) rotate(0deg); }
 }
 
 .profile-tagline {
@@ -158,7 +212,6 @@ body::before {
     transform: translateY(0) !important;
 }
 
-/* Social Links Styles */
 .social-links {
     display: flex;
     justify-content: center;
@@ -239,7 +292,6 @@ body::before {
     height: 100%;
 }
 
-/* Social Platform Colors */
 .social-links .icon-content a[data-social="discord"] .filled,
 .social-links .icon-content a[data-social="discord"] ~ .tooltip {
     background-color: #5865F2;
@@ -278,37 +330,6 @@ body::before {
     50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.3); }
 }
 
-.snowflake {
-    position: fixed;
-    color: rgb(218, 181, 47);
-    font-size: 1em;
-    pointer-events: none;
-    animation: fall linear infinite;
-    top: -10px;
-    opacity: 0.8;
-}
-
-@keyframes fall {
-    0% { transform: translateY(-10px) translateX(0) rotate(0deg); }
-    100% { transform: translateY(100vh) translateX(20px) rotate(360deg); }
-}
-
-.cursor-snowflake {
-    position: fixed;
-    color: rgb(218, 181, 47);
-    font-size: 16px;
-    pointer-events: none;
-    animation: cursor-fall 2s linear forwards;
-    z-index: 9999;
-}
-
-@keyframes cursor-fall {
-    to {
-        transform: translateY(100px) rotate(360deg);
-        opacity: 0;
-    }
-}
-
 #musicToggle {
     position: fixed;
     bottom: 20px;
@@ -327,4 +348,13 @@ body::before {
 
 #musicToggle:hover {
     transform: scale(1.1);
+}
+
+.glow {
+    animation: glow-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+    0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+    100% { box-shadow: 0 0 20px rgba(107, 172, 204, 0.6); }
 }
